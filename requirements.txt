@@ -8,4 +8,5 @@ wolframalpha
 openai
 pyowm
 trulens-eval
+pypdf
 
