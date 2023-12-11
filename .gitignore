@@ -1,0 +1,22 @@
+# Ignore Python compiled files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore virtual environment
+venv/
+env/
+
+# Ignore .env file containing sensitive data
+.env
+
+# Ignore any .DS_Store (MacOS folder metadata)
+.DS_Store
+
+# Ignore other files that contain sensitive information
+secret_key
+credentials.json
+
+# Ignore Streamlit local files
+.streamlit/
