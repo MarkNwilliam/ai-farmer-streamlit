@@ -1,5 +1,4 @@
-langchain
-os
+langchain== 0.0.344
 requests  # If you're using requests in your project
 google-cloud-aiplatform
 streamlit
