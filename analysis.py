@@ -149,7 +149,7 @@ tru_recorder = TruChain(chain,
     app_id='Chain1_ChatApplication',
                         feedbacks=[
 
-                            Feedback(hugs.not_toxic).on_output(),
+                            #Feedback(hugs.not_toxic).on_output(),
                             Feedback(hugs.positive_sentiment).on_output(),
                             Feedback(openai.relevance).on_input_output()
                         ]
