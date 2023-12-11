@@ -25,6 +25,19 @@ from langchain.agents import load_tools
 from trulens_eval import TruChain, Feedback, OpenAI, Huggingface, Tru
 
 load_dotenv()
+
+def get_google_maps_api_key():
+    """Retrieve Google Maps API key from environment variables."""
+    api_key = os.environ.get('GOOGLE_MAPS')
+    if not api_key:
+        raise ValueError("Google Maps API key is not set in environment variables.")
+    return api_key
+
+# Use the function to get the API key
+google_maps_api_key = get_google_maps_api_key()
+print("Google Maps API Key:", google_maps_api_key)
+
+
 service_account_path = os.path.join(os.path.dirname(__file__), 'lablab-392213-7e18b3041d69.json')
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = service_account_path
 
@@ -94,7 +107,7 @@ def search_location(query, api_key):
 
 
 def show():
-    api_key = "AIzaSyA3YVLTGuGesO27kFo1QGZq-lPNebj3ihg"
+    google_maps_api_key = get_google_maps_api_key()
     default_lat, default_lon = 37.7749, -122.4194  # Default coordinates (San Francisco)
 
     st.title("Google Map")
@@ -107,11 +120,11 @@ def show():
     query = st.text_input("Enter a location name:")
     location_updated = False
     if query:
-        location = search_location(query, api_key)
+        location = search_location(query, google_maps_api_key )
         if location:
             st.session_state['lat'] = location['lat']
             st.session_state['lon'] = location['lng']
-            location_name = get_location_name(st.session_state['lat'], st.session_state['lon'], api_key)
+            location_name = get_location_name(st.session_state['lat'], st.session_state['lon'], google_maps_api_key )
             st.write(f"Location: {location_name}")
             weather = OpenWeatherMapAPIWrapper()
 
@@ -124,13 +137,13 @@ def show():
         with st.spinner('Fetching current location...'):
             time.sleep(2)  # Simulate delay in fetching location
             st.session_state['lat'], st.session_state['lon'] = 40.7128, -74.0060  # Example coordinates (New York City)
-            location_name = get_location_name(st.session_state['lat'], st.session_state['lon'], api_key)
+            location_name = get_location_name(st.session_state['lat'], st.session_state['lon'], google_maps_api_key)
             st.write(f"Location: {location_name}")
             location_updated = True
 
     # Embed map with updated location
     if location_updated:
-        embed_google_map(st.session_state['lat'], st.session_state['lon'], api_key)
+        embed_google_map(st.session_state['lat'], st.session_state['lon'], google_maps_api_key)
 
     st.title("Contextual Chatbot")
 

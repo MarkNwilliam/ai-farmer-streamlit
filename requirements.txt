@@ -4,7 +4,7 @@ google-cloud-aiplatform
 streamlit
 python-dotenv
 llama-index
-trulens-eval
 wolframalpha
 openai
+trulens-eval
 
