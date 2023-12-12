@@ -7,6 +7,6 @@ llama-index
 wolframalpha
 openai
 pyowm
-trulens-eval
+trulens-eval==0.18.3
 pypdf
 
