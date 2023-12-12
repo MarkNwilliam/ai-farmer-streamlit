@@ -27,7 +27,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chat_models import ChatOpenAI
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.prompts import PromptTemplate
-from trulens_eval import TruChain, Feedback, OpenAI, Huggingface, Tru
+#from trulens_eval import TruChain, Feedback, OpenAI, Huggingface, Tru
 from IPython.display import JSON
 from google.cloud import aiplatform
 import streamlit as st
@@ -42,6 +42,8 @@ os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = service_account_path
 
 llm = ChatVertexAI()
 set_debug(True)
+
+"""
 tru = Tru()
 hugs = Huggingface()
 openai = OpenAI()
@@ -60,7 +62,7 @@ f_hate = Feedback(openai.moderation_hate).on_output()
 f_violent = Feedback(openai.moderation_violence, higher_is_better=False).on_output()
 f_selfharm = Feedback(openai.moderation_selfharm, higher_is_better=False).on_output()
 f_maliciousness = Feedback(openai.maliciousness_with_cot_reasons, higher_is_better=False).on_output()
-
+"""
 
 
 def show():
@@ -104,7 +106,7 @@ def show():
 
         qa = RetrievalQA.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever, return_source_documents=True,
                                          verbose=True)
-
+        """
         tru_recorder = TruChain(qa,
                                 app_id='Chain3_ChatApplication',
                                 feedbacks=[
@@ -114,7 +116,7 @@ def show():
                                     Feedback(openai.relevance).on_input_output()
                                 ]
                                 )
-
+       """
         st.success('Chat is ready')
 
     if "messages" not in st.session_state:
@@ -129,9 +131,11 @@ def show():
 
         st.session_state.messages.append({"role": "user", "content": prompt})
         st.chat_message("user").write(prompt)
+        """
         with tru_recorder as recording:
             result = qa({"query": prompt})
-
+        """
+        result = qa({"query": prompt})
         st.session_state.messages.append({"role": "assistant", "content": result["result"]})
         st.chat_message("assistant").write(result["result"])
 
