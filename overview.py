@@ -22,7 +22,7 @@ from langchain.utilities import OpenWeatherMapAPIWrapper
 from langchain.chat_models import ChatVertexAI
 from langchain.prompts import ChatPromptTemplate
 from langchain.agents import load_tools
-from trulens_eval import TruChain, Feedback, OpenAI, Huggingface, Tru
+#from trulens_eval import TruChain, Feedback, OpenAI, Huggingface, Tru
 
 load_dotenv()
 
@@ -42,7 +42,7 @@ service_account_path = os.path.join(os.path.dirname(__file__), 'lablab-392213-7e
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = service_account_path
 
 
-openai = OpenAI()
+#openai = OpenAI()
 
 
 
