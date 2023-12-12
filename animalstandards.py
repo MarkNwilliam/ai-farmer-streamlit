@@ -27,7 +27,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chat_models import ChatOpenAI
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.prompts import PromptTemplate
-from trulens_eval import TruChain, Feedback, OpenAI, Huggingface, Tru
+#from trulens_eval import TruChain, Feedback, OpenAI, Huggingface, Tru
 from IPython.display import JSON
 from google.cloud import aiplatform
 import streamlit as st
@@ -47,7 +47,7 @@ service_account_path = os.path.join(os.path.dirname(__file__), 'lablab-392213-7e
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = service_account_path
 
 llm = ChatVertexAI()
-
+"""
 tru = Tru()
 hugs = Huggingface()
 openai = OpenAI()
@@ -66,7 +66,7 @@ f_hate = Feedback(openai.moderation_hate).on_output()
 f_violent = Feedback(openai.moderation_violence, higher_is_better=False).on_output()
 f_selfharm = Feedback(openai.moderation_selfharm, higher_is_better=False).on_output()
 f_maliciousness = Feedback(openai.maliciousness_with_cot_reasons, higher_is_better=False).on_output()
-
+"""
 documents = SimpleDirectoryReader("data").load_data()
 index = VectorStoreIndex.from_documents(documents)
 query_engine = index.as_query_engine()
@@ -86,7 +86,7 @@ prompt = ChatPromptTemplate(
 
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
 chain = LLMChain(llm=llm, prompt=prompt, verbose=True, memory=memory )
-
+"""
 tru_recorder = TruChain(chain,
     app_id='Chain2_ChatApplication',
                         feedbacks=[
@@ -96,6 +96,7 @@ tru_recorder = TruChain(chain,
                             Feedback(openai.relevance).on_input_output()
                         ]
                         )
+"""
 def show():
     st.title("📝 Q&A Animal production")
     with st.spinner('Wait for it...'):
@@ -109,10 +110,16 @@ def show():
         st.chat_message(msg["role"]).write(msg["content"])
 
     if prompt := st.chat_input():
+        """
         with tru_recorder as recording:
             response = query_engine.query(prompt)
             chat = f'Here is the data from the books: ${response} and here was the question ${prompt}'
             result = chain({"question": chat})
+        """
+
+        response = query_engine.query(prompt)
+        chat = f'Here is the data from the books: ${response} and here was the question ${prompt}'
+        result = chain({"question": chat})
 
         st.session_state.messages.append({"role": "assistant", "content": result["text"]})
         st.chat_message("assistant").write(result["text"])
