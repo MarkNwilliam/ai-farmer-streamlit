@@ -9,4 +9,5 @@ openai
 pyowm
 trulens-eval==0.18.3
 pypdf
+pymilvus
 
