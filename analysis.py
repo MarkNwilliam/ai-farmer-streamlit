@@ -27,7 +27,7 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chat_models import ChatOpenAI
 from langchain.schema.runnable import RunnablePassthrough
 from langchain.prompts import PromptTemplate
-from trulens_eval import TruChain, Feedback, OpenAI, Huggingface, Tru
+#from trulens_eval import TruChain, Feedback, OpenAI, Huggingface, Tru
 from IPython.display import JSON
 from google.cloud import aiplatform
 import streamlit as st
@@ -35,6 +35,8 @@ from dotenv import load_dotenv
 load_dotenv()
 service_account_path = os.path.join(os.path.dirname(__file__), 'lablab-392213-7e18b3041d69.json')
 os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = service_account_path
+
+"""
 tru = Tru()
 hugs = Huggingface()
 openai = OpenAI()
@@ -53,7 +55,7 @@ f_hate = Feedback(openai.moderation_hate).on_output()
 f_violent = Feedback(openai.moderation_violence, higher_is_better=False).on_output()
 f_selfharm = Feedback(openai.moderation_selfharm, higher_is_better=False).on_output()
 f_maliciousness = Feedback(openai.maliciousness_with_cot_reasons, higher_is_better=False).on_output()
-
+"""
 
 
 
@@ -144,7 +146,7 @@ chain = LLMChain(llm=llm, prompt=prompt, verbose=True, memory=memory )
 
 
 
-
+"""
 tru_recorder = TruChain(chain,
     app_id='Chain1_ChatApplication',
                         feedbacks=[
@@ -154,6 +156,7 @@ tru_recorder = TruChain(chain,
                             Feedback(openai.relevance).on_input_output()
                         ]
                         )
+"""
 
 print("Welcome to the ChatBot Console App!")
 print("Enter 'exit' to quit the app.")
@@ -196,8 +199,11 @@ def show():
 
         with st.chat_message("assistant"):
             # Record with TruLens
+            """
             with tru_recorder as recording:
                 full_response = chain.run(prompt)
+            """
+            full_response = chain.run(prompt)
             message_placeholder = st.empty()
             message_placeholder.markdown(full_response + "▌")
             message_placeholder.markdown(full_response)
